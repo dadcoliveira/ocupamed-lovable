@@ -75,16 +75,16 @@ function KpiCard({
 }) {
   return (
     <div
-      className={`bg-white rounded-xl border border-gray-200 p-5 flex items-start gap-4 ${onClick ? "cursor-pointer hover:border-blue-300 hover:shadow-sm transition-all" : ""}`}
+      className={`bg-white rounded-xl border border-gray-200 p-3 sm:p-5 flex items-start gap-2 sm:gap-4 ${onClick ? "cursor-pointer hover:border-blue-300 hover:shadow-sm transition-all" : ""}`}
       onClick={onClick}
     >
-      <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0 ${cor}`}>
+      <div className={`w-8 h-8 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl flex items-center justify-center text-base sm:text-xl flex-shrink-0 ${cor}`}>
         {icone}
       </div>
-      <div>
-        <p className="text-2xl font-bold text-gray-900 leading-tight">{valor}</p>
-        <p className="text-sm font-medium text-gray-600">{label}</p>
-        {sub && <p className="text-xs text-gray-400 mt-0.5">{sub}</p>}
+      <div className="min-w-0">
+        <p className="text-lg sm:text-2xl font-bold text-gray-900 leading-tight">{valor}</p>
+        <p className="text-[10px] sm:text-sm font-medium text-gray-600 truncate">{label}</p>
+        {sub && <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">{sub}</p>}
       </div>
     </div>
   );
@@ -185,11 +185,11 @@ export default function Dashboard({ onNavegar }: { onNavegar?: (nav: NavState) =
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
+      <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
-            <p className="text-sm text-gray-500">
+            <h1 className="text-lg sm:text-xl font-semibold text-gray-900">Dashboard</h1>
+            <p className="text-xs sm:text-sm text-gray-500">
               Visão geral · Atualizado agora ·{" "}
               {new Date().toLocaleDateString("pt-BR", {
                 weekday: "long", day: "2-digit", month: "long", year: "numeric",
@@ -199,10 +199,10 @@ export default function Dashboard({ onNavegar }: { onNavegar?: (nav: NavState) =
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col gap-6">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 flex flex-col gap-4 sm:gap-6">
 
         {/* ── KPIs ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-2 sm:gap-3">
           <KpiCard icone="📋" label="Total" valor={stats.total} cor="bg-gray-100"
             onClick={onNavegar ? () => onNavegar({ pagina: "solicitacoes" }) : undefined} />
           <KpiCard icone="🔓" label="Em aberto" valor={stats.abertas} cor="bg-blue-100"
@@ -220,136 +220,158 @@ export default function Dashboard({ onNavegar }: { onNavegar?: (nav: NavState) =
         </div>
 
         {/* ── Linha 2: Gráfico de linha + Pizza de status ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
 
           {/* Recebimentos por dia */}
-          <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-5">
-            <p className="text-sm font-semibold text-gray-700 mb-4">
+          <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-4 sm:p-5">
+            <p className="text-sm font-semibold text-gray-700 mb-3 sm:mb-4">
               📈 Solicitações recebidas — últimos 7 dias
             </p>
-            <ResponsiveContainer width="100%" height={200}>
-              <LineChart data={stats.porDia} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="dia" tick={{ fontSize: 11, fill: "#9ca3af" }} />
-                <YAxis tick={{ fontSize: 11, fill: "#9ca3af" }} allowDecimals={false} />
-                <Tooltip content={<CustomTooltip />} />
-                <Line
-                  type="monotone"
-                  dataKey="solicitacoes"
-                  name="Solicitações"
-                  stroke="#3b82f6"
-                  strokeWidth={2.5}
-                  dot={{ r: 4, fill: "#3b82f6" }}
-                  activeDot={{ r: 6 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            <div className="h-[180px] sm:h-[200px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={stats.porDia} margin={{ top: 5, right: 10, left: -25, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="dia" tick={{ fontSize: 10, fill: "#9ca3af" }} />
+                  <YAxis tick={{ fontSize: 10, fill: "#9ca3af" }} allowDecimals={false} width={30} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Line
+                    type="monotone"
+                    dataKey="solicitacoes"
+                    name="Solicitações"
+                    stroke="#3b82f6"
+                    strokeWidth={2.5}
+                    dot={{ r: 4, fill: "#3b82f6" }}
+                    activeDot={{ r: 6 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
 
           {/* Pizza de status */}
-          <div className="bg-white rounded-xl border border-gray-200 p-5">
-            <p className="text-sm font-semibold text-gray-700 mb-4">🔵 Distribuição por status</p>
-            <ResponsiveContainer width="100%" height={200}>
-              <PieChart>
-                <Pie
-                  data={stats.porStatus}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={50}
-                  outerRadius={80}
-                  paddingAngle={2}
-                  dataKey="value"
-                >
-                  {stats.porStatus.map((entry, i) => (
-                    <Cell key={i} fill={entry.fill} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  formatter={(value: number, name: string) => [value, name]}
-                  contentStyle={{ borderRadius: 12, fontSize: 12 }}
-                />
-                <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11 }} />
-              </PieChart>
-            </ResponsiveContainer>
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5">
+            <p className="text-sm font-semibold text-gray-700 mb-3 sm:mb-4">🔵 Distribuição por status</p>
+            <div className="h-[180px] sm:h-[200px] flex flex-col">
+              <div className="flex-1 min-h-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={stats.porStatus}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={40}
+                      outerRadius={60}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {stats.porStatus.map((entry, i) => (
+                        <Cell key={i} fill={entry.fill} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value: number, name: string) => [value, name]}
+                      contentStyle={{ borderRadius: 12, fontSize: 12 }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              {/* Legenda abaixo do gráfico */}
+              <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 pt-2 border-t border-gray-100 mt-2">
+                {stats.porStatus.map((entry, i) => (
+                  <div key={i} className="flex items-center gap-1 text-[10px] sm:text-xs">
+                    <span
+                      className="w-2 h-2 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: entry.fill }}
+                    />
+                    <span className="text-gray-600">{entry.name}</span>
+                    <span className="font-semibold text-gray-800">{entry.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
         {/* ── Linha 3: Barras de tipo + Barras de prioridade ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
 
           {/* Por tipo de exame */}
-          <div className="bg-white rounded-xl border border-gray-200 p-5">
-            <p className="text-sm font-semibold text-gray-700 mb-4">
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5">
+            <p className="text-sm font-semibold text-gray-700 mb-3 sm:mb-4">
               🩺 Solicitações por tipo de exame
             </p>
-            <ResponsiveContainer width="100%" height={220}>
-              <BarChart
-                data={stats.porTipo}
-                layout="vertical"
-                margin={{ top: 0, right: 20, left: 10, bottom: 0 }}
-              >
-                <XAxis type="number" tick={{ fontSize: 11, fill: "#9ca3af" }} allowDecimals={false} />
-                <YAxis
-                  type="category"
-                  dataKey="name"
-                  tick={{ fontSize: 11, fill: "#6b7280" }}
-                  width={100}
-                />
-                <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="total" name="Total" fill="#3b82f6" radius={[0, 6, 6, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="h-[180px] sm:h-[220px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={stats.porTipo}
+                  layout="vertical"
+                  margin={{ top: 0, right: 15, left: -5, bottom: 0 }}
+                >
+                  <XAxis type="number" tick={{ fontSize: 10, fill: "#9ca3af" }} allowDecimals={false} />
+                  <YAxis
+                    type="category"
+                    dataKey="name"
+                    tick={{ fontSize: 10, fill: "#6b7280" }}
+                    width={85}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Bar dataKey="total" name="Total" fill="#3b82f6" radius={[0, 6, 6, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
 
           {/* Por prioridade */}
-          <div className="bg-white rounded-xl border border-gray-200 p-5">
-            <p className="text-sm font-semibold text-gray-700 mb-4">
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5">
+            <p className="text-sm font-semibold text-gray-700 mb-3 sm:mb-4">
               🚦 Solicitações por prioridade
             </p>
-            <ResponsiveContainer width="100%" height={220}>
-              <BarChart
-                data={stats.porPrioridade}
-                margin={{ top: 0, right: 20, left: -20, bottom: 0 }}
-              >
-                <XAxis dataKey="name" tick={{ fontSize: 12, fill: "#6b7280" }} />
-                <YAxis tick={{ fontSize: 11, fill: "#9ca3af" }} allowDecimals={false} />
-                <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="total" name="Total" radius={[6, 6, 0, 0]}>
-                  {stats.porPrioridade.map((entry, i) => (
-                    <Cell key={i} fill={entry.fill} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="h-[180px] sm:h-[220px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={stats.porPrioridade}
+                  margin={{ top: 0, right: 15, left: -25, bottom: 0 }}
+                >
+                  <XAxis dataKey="name" tick={{ fontSize: 10, fill: "#6b7280" }} />
+                  <YAxis tick={{ fontSize: 10, fill: "#9ca3af" }} allowDecimals={false} width={30} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Bar dataKey="total" name="Total" radius={[6, 6, 0, 0]}>
+                    {stats.porPrioridade.map((entry, i) => (
+                      <Cell key={i} fill={entry.fill} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
 
         {/* ── Linha 4: Urgentes + Próximos agendamentos + Docs ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
 
           {/* Urgentes abertas */}
-          <div className="bg-white rounded-xl border border-gray-200 p-5">
-            <p className="text-sm font-semibold text-gray-700 mb-4">🔴 Urgentes em aberto</p>
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5">
+            <p className="text-sm font-semibold text-gray-700 mb-3 sm:mb-4">🔴 Urgentes em aberto</p>
             {urgentesAbertas.length === 0 ? (
               <div className="text-center py-6">
                 <p className="text-2xl mb-1">🎉</p>
                 <p className="text-sm text-gray-500">Nenhuma urgente em aberto</p>
               </div>
             ) : (
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2 sm:gap-3">
                 {urgentesAbertas.map((s) => (
                   <div
                     key={s.id}
-                    className="flex items-start gap-3 p-3 bg-red-50 border border-red-100 rounded-lg"
+                    className="flex items-start gap-2 sm:gap-3 p-2 sm:p-3 bg-red-50 border border-red-100 rounded-lg"
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-800 truncate">{s.colaborador}</p>
-                      <p className="text-xs text-gray-500 truncate">{s.empresa}</p>
-                      <p className="text-xs text-red-500 mt-0.5">
+                      <p className="text-xs sm:text-sm font-medium text-gray-800 truncate">{s.colaborador}</p>
+                      <p className="text-[10px] sm:text-xs text-gray-500 truncate">{s.empresa}</p>
+                      <p className="text-[10px] sm:text-xs text-red-500 mt-0.5">
                         Prazo: {new Date(s.prazo).toLocaleDateString("pt-BR")}
                       </p>
                     </div>
-                    <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium flex-shrink-0">
+                    <span className="text-[10px] sm:text-xs bg-red-100 text-red-700 px-1.5 sm:px-2 py-0.5 rounded-full font-medium flex-shrink-0">
                       {s.status.replace(/_/g, " ")}
                     </span>
                   </div>
@@ -359,24 +381,24 @@ export default function Dashboard({ onNavegar }: { onNavegar?: (nav: NavState) =
           </div>
 
           {/* Próximos agendamentos */}
-          <div className="bg-white rounded-xl border border-gray-200 p-5">
-            <p className="text-sm font-semibold text-gray-700 mb-4">📅 Próximos agendamentos</p>
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5">
+            <p className="text-sm font-semibold text-gray-700 mb-3 sm:mb-4">📅 Próximos agendamentos</p>
             {proximosAgendamentos.length === 0 ? (
               <div className="text-center py-6">
                 <p className="text-2xl mb-1">📭</p>
                 <p className="text-sm text-gray-500">Nenhum agendamento futuro</p>
               </div>
             ) : (
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2 sm:gap-3">
                 {proximosAgendamentos.map((s) => (
                   <div
                     key={s.id}
-                    className="flex items-start gap-3 p-3 bg-purple-50 border border-purple-100 rounded-lg"
+                    className="flex items-start gap-2 sm:gap-3 p-2 sm:p-3 bg-purple-50 border border-purple-100 rounded-lg"
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-800 truncate">{s.colaborador}</p>
-                      <p className="text-xs text-gray-500 truncate">{s.empresa}</p>
-                      <p className="text-xs text-purple-600 mt-0.5 font-medium">
+                      <p className="text-xs sm:text-sm font-medium text-gray-800 truncate">{s.colaborador}</p>
+                      <p className="text-[10px] sm:text-xs text-gray-500 truncate">{s.empresa}</p>
+                      <p className="text-[10px] sm:text-xs text-purple-600 mt-0.5 font-medium">
                         {new Date(s.agendado_para!).toLocaleString("pt-BR", {
                           day: "2-digit", month: "2-digit",
                           hour: "2-digit", minute: "2-digit",
@@ -384,7 +406,7 @@ export default function Dashboard({ onNavegar }: { onNavegar?: (nav: NavState) =
                       </p>
                     </div>
                     {s.medico_responsavel && (
-                      <p className="text-xs text-gray-400 flex-shrink-0 text-right max-w-[80px] leading-tight">
+                      <p className="text-[10px] sm:text-xs text-gray-400 flex-shrink-0 text-right max-w-[60px] sm:max-w-[80px] leading-tight">
                         {s.medico_responsavel}
                       </p>
                     )}
@@ -395,11 +417,11 @@ export default function Dashboard({ onNavegar }: { onNavegar?: (nav: NavState) =
           </div>
 
           {/* Saúde dos documentos */}
-          <div className="bg-white rounded-xl border border-gray-200 p-5">
-            <p className="text-sm font-semibold text-gray-700 mb-4">📄 Saúde dos documentos</p>
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5">
+            <p className="text-sm font-semibold text-gray-700 mb-3 sm:mb-4">📄 Saúde dos documentos</p>
 
-            <div className="flex flex-col items-center mb-5">
-              <div className="relative w-32 h-32">
+            <div className="flex flex-col items-center mb-4 sm:mb-5">
+              <div className="relative w-24 h-24 sm:w-32 sm:h-32">
                 <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
                   <circle cx="50" cy="50" r="40" fill="none" stroke="#f3f4f6" strokeWidth="12" />
                   <circle
@@ -417,22 +439,22 @@ export default function Dashboard({ onNavegar }: { onNavegar?: (nav: NavState) =
                   />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-2xl font-bold text-gray-800">{stats.pctDocsOk}%</span>
-                  <span className="text-xs text-gray-400">completos</span>
+                  <span className="text-xl sm:text-2xl font-bold text-gray-800">{stats.pctDocsOk}%</span>
+                  <span className="text-[10px] sm:text-xs text-gray-400">completos</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <div className="flex justify-between text-sm">
+            <div className="flex flex-col gap-1.5 sm:gap-2">
+              <div className="flex justify-between text-xs sm:text-sm">
                 <span className="text-gray-500">Docs completos</span>
                 <span className="font-semibold text-green-600">{stats.docsOk}</span>
               </div>
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-xs sm:text-sm">
                 <span className="text-gray-500">Com pendência</span>
                 <span className="font-semibold text-orange-600">{stats.docsPendentes}</span>
               </div>
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-xs sm:text-sm">
                 <span className="text-gray-500">Total de solicitações</span>
                 <span className="font-semibold text-gray-700">{stats.total}</span>
               </div>
@@ -455,27 +477,27 @@ export default function Dashboard({ onNavegar }: { onNavegar?: (nav: NavState) =
         </div>
 
         {/* ── Linha 5: Métricas operacionais ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white rounded-xl border border-gray-200 p-5 text-center">
-            <p className="text-3xl font-bold text-blue-600">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5 text-center">
+            <p className="text-2xl sm:text-3xl font-bold text-blue-600">
               {mockDashboard.tempo_medio_triagem_horas}h
             </p>
-            <p className="text-sm font-medium text-gray-600 mt-1">Tempo médio de triagem</p>
-            <p className="text-xs text-gray-400">da entrada até triagem concluída</p>
+            <p className="text-xs sm:text-sm font-medium text-gray-600 mt-1">Tempo médio de triagem</p>
+            <p className="text-[10px] sm:text-xs text-gray-400">da entrada até triagem concluída</p>
           </div>
-          <div className="bg-white rounded-xl border border-gray-200 p-5 text-center">
-            <p className="text-3xl font-bold text-purple-600">
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5 text-center">
+            <p className="text-2xl sm:text-3xl font-bold text-purple-600">
               {mockDashboard.tempo_medio_agendamento_dias}d
             </p>
-            <p className="text-sm font-medium text-gray-600 mt-1">Tempo médio até agendamento</p>
-            <p className="text-xs text-gray-400">da entrada até data agendada</p>
+            <p className="text-xs sm:text-sm font-medium text-gray-600 mt-1">Tempo médio até agendamento</p>
+            <p className="text-[10px] sm:text-xs text-gray-400">da entrada até data agendada</p>
           </div>
-          <div className="bg-white rounded-xl border border-gray-200 p-5 text-center">
-            <p className="text-3xl font-bold text-green-600">
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5 text-center">
+            <p className="text-2xl sm:text-3xl font-bold text-green-600">
               {stats.total > 0 ? Math.round((stats.concluidos / stats.total) * 100) : 0}%
             </p>
-            <p className="text-sm font-medium text-gray-600 mt-1">Taxa de conclusão</p>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs sm:text-sm font-medium text-gray-600 mt-1">Taxa de conclusão</p>
+            <p className="text-[10px] sm:text-xs text-gray-400">
               {stats.concluidos} de {stats.total} concluídos
             </p>
           </div>
