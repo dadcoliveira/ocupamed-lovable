@@ -2,17 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import {
-  HeartPulse,
-  ArrowRight,
-  CheckCircle,
-  Clock,
-  BarChart3,
-  MessageSquare,
-  Shield,
-  Zap,
-  Star,
-} from "lucide-react";
+import { HeartPulse, ArrowRight, CircleCheck as CheckCircle, Clock, ChartBar as BarChart3, MessageSquare, Shield, Zap, Star } from "lucide-react";
 
 const dores = [
   { icon: MessageSquare, title: "Solicitações desorganizadas", desc: "Pedidos chegam por WhatsApp, telefone e site sem controle centralizado." },
