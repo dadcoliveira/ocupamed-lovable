@@ -116,7 +116,7 @@ function makeQueryBuilder<T>(table: string) {
   return builder;
 }
 
-function makeUpdateBuilder<T>(table: string, data: any) {
+function makeUpdateBuilder(table: string, data: any) {
   const filters: Array<{ col: string; val: any }> = [];
 
   const builder = {
@@ -149,7 +149,7 @@ export const supabase = {
         return makeQueryBuilder<T>(table).select(fields);
       },
       update(data: any) {
-        return makeUpdateBuilder<T>(table, data);
+        return makeUpdateBuilder(table, data);
       },
     };
   },

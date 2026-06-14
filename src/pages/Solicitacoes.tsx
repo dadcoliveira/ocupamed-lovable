@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useSolicitacoes } from "@/contexts/SolicitacoesContext";
-import { SolicitacaoDetalhada, Status, Prioridade } from "@/data/mockData";
+import { Status, Prioridade } from "@/data/mockData";
 import SolicitacaoDetalheComp from "@/components/SolicitacaoDetalhe";
 import NovaSolicitacaoForm from "@/components/NovaSolicitacaoForm";
 
@@ -104,7 +104,6 @@ export default function Solicitacoes({
   filtroStatusInicial,
   filtroPrioridadeInicial,
   filtroAlertaInicial,
-  onVoltar,
 }: SolicitacoesProps = {}) {
   const { solicitacoes, addSolicitacao } = useSolicitacoes();
   const [filtros, setFiltros] = useState<Filtros>(() => ({

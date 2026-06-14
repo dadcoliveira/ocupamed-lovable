@@ -653,6 +653,7 @@ export interface Documento {
   nome: string;
   obrigatorio: boolean;
   entregue: boolean;
+  entregue_em?: string;
 }
 
 export interface HistoricoEvento {
@@ -682,6 +683,7 @@ export interface SolicitacaoDetalhada {
   medico_responsavel?: string;
   preferencia_periodo: "manha" | "tarde" | "qualquer";
   observacao?: string;
+  setor?: string;
   documentos: Documento[];
   historico: HistoricoEvento[];
 }

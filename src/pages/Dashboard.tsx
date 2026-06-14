@@ -60,12 +60,7 @@ function CustomTooltip({ active, payload, label }: any) {
 }
 
 // ─── Tipos de navegação ───────────────────────────────────────────
-interface NavState {
-  pagina: string;
-  filtroStatus?: string;
-  filtroPrioridade?: string;
-  filtroAlerta?: "prazo_vencido" | "docs_pendentes" | null;
-}
+import { NavState } from "./Index";
 
 // ─── Card de KPI ──────────────────────────────────────────────────
 function KpiCard({

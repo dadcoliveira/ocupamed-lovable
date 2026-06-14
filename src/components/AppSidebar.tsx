@@ -47,7 +47,6 @@ export function AppSidebar() {
   const { user, profile, signOut } = useAuth();
   const { role } = useRole();
   const location = useLocation();
-  const isActive = (path: string) => location.pathname === path;
 
   const displayName = profile?.name || user?.email || "—";
   const initial = (profile?.name?.[0] || user?.email?.[0] || "U").toUpperCase();

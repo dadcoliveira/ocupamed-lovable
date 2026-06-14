@@ -2,16 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { 
-  HeartPulse, 
-  ArrowRight, 
-  CheckCircle, 
-  Clock, 
-  BarChart3, 
-  MessageSquare, 
-  Shield, 
+import {
+  HeartPulse,
+  ArrowRight,
+  CheckCircle,
+  Clock,
+  BarChart3,
+  MessageSquare,
+  Shield,
   Zap,
-  ChevronRight,
   Star,
 } from "lucide-react";
 
